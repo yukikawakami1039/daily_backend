@@ -1,19 +1,26 @@
 // backend/server.js
 const express = require('express');
 const app = express();
-const auth = require('./src/routes/auth');
 const PORT = process.env.PORT || 3000;
+const auth = require('./src/routes/auth');
 
-//authのルーティング
-app.use('/auth', auth);
+
 // JSONボディパーサ
 app.use(express.json());
+//authのルーティング
+app.use('/auth', auth);
 
+//
 app.get('/', (req, res) => {
   res.send('Backend server is running');
 });
 
-app.listen(PORT, () => {
-  console.log(`sサーバーを起動中:${PORT}`);
+//データベースに接続
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
-/// 簡易的（仮）
+
+app.listen(PORT, () => {
+  console.log(`サーバーを起動中:${PORT}`);
+});
