@@ -4,12 +4,15 @@ const mongoose = require('mongoose');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const auth = require('./src/routes/auth');
+const report = require('./src/routes/report');
 
 
 // JSONボディパーサ
 app.use(express.json());
 //authのルーティング
 app.use('/auth', auth);
+//reportのルーティング
+app.use('/report', report);
 
 //
 app.get('/', (req, res) => {

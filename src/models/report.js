@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 
-//レポートのデータを管理する
 const reportSchema = new mongoose.Schema({
-    username: String,
-    date: Date,
-    isHoliday: Boolean,
-    tasks: [String],
-    report: String,
-    tomorrow: String
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  day: { type: Date},
+  isHoliday: { type: Boolean, default: false },
+  issues: [{ type: String }],
+  report: { type: String, required: true },
+  tomorrow: { type: String },
 });
 
 const Report = mongoose.model('Report', reportSchema);
