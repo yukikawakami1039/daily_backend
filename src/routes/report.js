@@ -3,13 +3,12 @@ const router = express.Router();
 const Report = require('../models/report');
 const User = require('../models/User');
 
-
 router.post('/create', async (req, res) => {
   try {
     const { userId, isHoliday, issues, reports, tomorrow } = req.body;
     
-    // userIdに基づいてユーザーをデータベースから検索します。
-    const user = await User.findById(userId);
+    // 認証ミドルウェアから userId を取得
+    const user = req.user._id;
     // ユーザーが見つからなかった場合は、404エラーを返します。
     if (!user) {
       return res.status(404).json({ message: 'ユーザーが見つかりません' });

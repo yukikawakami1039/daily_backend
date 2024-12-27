@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
 const mongoose = require('mongoose');
+const { authenticateToken } = require('../middlewares/auth');
 //ログイン
 router.get('/auth', (req, res) => {
   res.send('auth');
@@ -83,7 +84,7 @@ router.post('/login', async (req, res) => {
 
 
 //DBのユーザーを確認
-router.get("/allUsers", async (req, res) => {
+router.get("/allUsers", authenticateToken, async (req, res) => {
     const users = await User.find({},{password:0});
     try {
         return res.status(200).json(users);
@@ -96,7 +97,7 @@ router.get("/allUsers", async (req, res) => {
 
 
 //ユーザーのデータを更新(frontendから送信されたデータを更新)
-router.put("/updateUser", (req, res) => {
+router.put("/updateUser", authenticateToken, async (req, res) => {
     const userName = req.body.userName;
     const email = req.body.email;
     const password = req.body.password;
