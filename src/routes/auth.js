@@ -56,11 +56,12 @@ router.post('/register',
 });
 
 //ログイン用API
-router.post('/login', async (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
+router.post('/login', async (req, res) => { 
+    try {
+        const email = req.body.email;
+        const password = req.body.password;
 
-    const user = User.find((user) => user.email === email);
+    const user = await User.findOne({ email: email });
     if (!user) {
         return res.status(400).json([{ message: 'ユーザーが存在しません' }]);
     }
@@ -74,6 +75,9 @@ router.post('/login', async (req, res) => {
     //JWTを発行
     const token = await jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '24h' });
     return res.status(200).json({ token });
+    } catch (error) {
+        return res.status(500).json({ message: 'サーバーエラー' });
+    }
 });
 
 

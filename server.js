@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3000;
 const auth = require('./src/routes/auth');
 const report = require('./src/routes/report');
 const comment = require('./src/routes/comment');
-
+const connectDB = require('./src/config/db');
 
 // JSONボディパーサ
 app.use(express.json());
@@ -16,18 +16,8 @@ app.use('/auth', auth);
 app.use('/report', report);
 // commentのルーティング
 app.use('/comment', comment);
-
-
-//
-app.get('/', (req, res) => {
-  res.send('Backend server is running');
-});
-
-//データベースに接続
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// データベースに接続
+connectDB();
 
 app.listen(PORT, () => {
   console.log(`サーバーを起動中:${PORT}`);
