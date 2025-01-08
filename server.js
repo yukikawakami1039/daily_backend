@@ -10,10 +10,10 @@ const connectDB = require('./src/config/db');
 
 // JSONボディパーサ
 app.use(express.json());
-//認証ミドルウェア
-app.use(authenticateToken);
 //authのルーティング
 app.use('/auth', auth);
+//認証ミドルウェア
+app.use(authenticateToken);
 //reportのルーティング
 app.use('/report', report);
 // commentのルーティング
