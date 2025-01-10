@@ -10,9 +10,11 @@ const authenticateToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("authenticateToken: Decoded JWT:", decoded); // デコードされたトークンを出力
     req.user = decoded; // トークンから取得したデータを `req.user` にセット
     next();
   } catch (error) {
+    console.error("authenticateToken: JWT verification error:", error);
     return res.status(403).json({ message: '無効なトークンです' });
   }
 };
