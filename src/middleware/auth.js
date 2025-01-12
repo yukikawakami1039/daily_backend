@@ -11,7 +11,14 @@ const authenticateToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     console.log("authenticateToken: Decoded JWT:", decoded); // デコードされたトークンを出力
-    req.user = decoded; // トークンから取得したデータを `req.user` にセット
+
+    // デコードされたトークンにIDが含まれているか確認
+    if (!decoded.id) {
+        console.error("authenticateToken: JWT does not contain user ID");
+        return res.status(403).json({ message: '無効なトークンです。IDが含まれていません' });
+    }
+    
+    req.user = decoded; // デコードされたトークンを `req.user` に設定
     next();
   } catch (error) {
     console.error("authenticateToken: JWT verification error:", error);

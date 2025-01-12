@@ -1,14 +1,20 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const reportSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  day: { type: Date},
-  isHoliday: { type: Boolean, default: false },
-  issues: [{ type: String }],
-  report: { type: String, required: true },
-  tomorrow: { type: String },
-});
+const reportSchema = new Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId, // userの_idを参照する
+        ref: "User",
+        required: true
+        },
+   username: {type:String},
+  day: { type: Date, default: Date.now },
+ isHoliday: { type: Boolean, default: false },
+issues: { type: String, },
+ reports: { type: String },
+tomorrow: { type: String, }
+ }, {timestamps: true});
 
-const Report = mongoose.model('Report', reportSchema);
+    const Report = mongoose.model('Report', reportSchema);
 
-module.exports = { Report };
+     module.exports = {Report} ; // モデルをエクスポート
